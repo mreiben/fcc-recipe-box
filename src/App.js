@@ -30,6 +30,7 @@ class App extends Component {
     this.addRecipe= this.addRecipe.bind(this);
     this.handleNameChange= this.handleNameChange.bind(this);
     this.handleIngredientsChange= this.handleIngredientsChange.bind(this);
+    this.removeRecipe= this.removeRecipe.bind(this);
   }
 
   addRecipe(){
@@ -50,15 +51,21 @@ class App extends Component {
   handleNameChange(e){
     this.setState({newName: e.target.value});
   }
-
   handleIngredientsChange(e){
     this.setState({newIngredients: e.target.value});
   }
+  removeRecipe(recipeKey){
+    let data = this.state.recipes.slice();
+    this.setState({recipes: data.filter(function(recipe){
+      return recipe.name !== recipeKey;
+    })});
+  }
+
 
   render() {
     return (
       <div className="list-holder">
-        <RecipeList recipes={this.state.recipes} />
+        <RecipeList recipes={this.state.recipes} removeRecipe={this.removeRecipe}/>
         <ButtonToolbar id="add-btn">
           <Button
             bsStyle="success"
@@ -72,22 +79,19 @@ class App extends Component {
           </Modal.Header>
           <Modal.Body>
             <h4>Title:</h4>
-            <input type="text" name="name" onChange={this.handleNameChange}/>
+            <input type="text" onChange={this.handleNameChange}/>
             <h4>Ingredients:</h4>
             <input
               type="text"
-              name="ingredients"
               placeholder="list here separated by commas"
               onChange={this.handleIngredientsChange}
             />
           </Modal.Body>
           <Modal.Footer>
-          <ButtonToolbar>
-              <Button bsStyle="primary" onClick={this.addRecipe}>Save</Button>
-              <Button bsStyle="danger" onClick={this.closeAddModal}>
-                Close
-              </Button>
-          </ButtonToolbar>
+            <ButtonToolbar>
+                <Button bsStyle="primary" onClick={this.addRecipe}>Save</Button>
+                <Button bsStyle="danger" onClick={this.closeAddModal}>Close</Button>
+            </ButtonToolbar>
           </Modal.Footer>
         </Modal>
       </div>

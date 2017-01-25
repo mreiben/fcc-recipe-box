@@ -12,6 +12,7 @@ const RecipeList = (props) => {
         key={recipe.name}
         name={recipe.name}
         ingredients={ingredientsList}
+        removeRecipe={props.removeRecipe}
       />
     );
   });
