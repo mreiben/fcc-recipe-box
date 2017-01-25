@@ -16,7 +16,7 @@ class Recipe extends Component{
 
         <div className="recipe-detail">
           <Accordion>
-            <Panel bsStyle="info" header={this.state.name} eventKey="1">
+            <Panel className="item-header" bsStyle="info" header={this.state.name} eventKey="1">
               <ul>
                 {this.state.ingredients}
               </ul>

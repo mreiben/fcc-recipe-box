@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import RecipeList from './components/RecipeList';
+import {Button, ButtonToolbar} from 'react-bootstrap';
 import './App.css';
 
 class App extends Component {
   constructor(props){
     super(props);
     this.state = {
+      showAddModal: false,
       recipes: [
         {
           name: "chicken soup",
@@ -23,10 +25,21 @@ class App extends Component {
     }
   }
 
+  openAddModal(){
+    this.setState({ showAddModal: true });
+  }
+
+  closeAddModal(){
+    this.setState({ showAddModal: false });
+  }
+
   render() {
     return (
       <div className="list-holder">
         <RecipeList recipes={this.state.recipes} />
+        <ButtonToolbar id="add-btn">
+          <Button bsStyle="success">Add Recipe</Button>
+        </ButtonToolbar>
       </div>
     );
   }
