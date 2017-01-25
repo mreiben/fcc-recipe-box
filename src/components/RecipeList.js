@@ -1,5 +1,6 @@
 import React from 'react';
 import Recipe from './Recipe.js';
+import {Button, ButtonToolbar} from 'react-bootstrap';
 import './RecipeList.css'
 
 const RecipeList = (props) => {
@@ -19,6 +20,9 @@ const RecipeList = (props) => {
   return(
     <div className="recipe-holder">
         {recipeList}
+        <ButtonToolbar id="add-btn">
+          <Button bsStyle="success">Add</Button>
+        </ButtonToolbar>
     </div>
   );
 };

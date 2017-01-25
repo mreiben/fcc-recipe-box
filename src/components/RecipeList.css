@@ -1,8 +1,12 @@
 .recipe-holder{
-  width: 75%;
   margin: 0 auto;
   background-color: #162856;
   border-radius: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+#add-btn{
+  margin-left: 10px;
+  margin-bottom: 10px;
 }

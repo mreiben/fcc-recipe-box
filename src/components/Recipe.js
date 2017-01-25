@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Recipe.css';
-import {Button, ButtonToolbar} from 'react-bootstrap';
+import {Button, ButtonToolbar, Accordion, Panel} from 'react-bootstrap';
 
 class Recipe extends Component{
   constructor(props){
@@ -13,15 +13,19 @@ class Recipe extends Component{
 
   render(){
     return(
+
         <div className="recipe-detail">
-          <h3>{this.state.name}</h3>
-          <ul>
-            {this.state.ingredients}
-          </ul>
-          <ButtonToolbar>
-            <Button bsStyle="danger">Delete</Button>
-            <Button bsStyle="primary">Edit</Button>
-          </ButtonToolbar>
+          <Accordion>
+            <Panel bsStyle="info" header={this.state.name} eventKey="1">
+              <ul>
+                {this.state.ingredients}
+              </ul>
+              <ButtonToolbar>
+                <Button bsStyle="danger">Delete</Button>
+                <Button bsStyle="primary">Edit</Button>
+              </ButtonToolbar>
+            </Panel>
+          </Accordion>
         </div>
     );
   };
