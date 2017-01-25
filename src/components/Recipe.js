@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './Recipe.css';
-import { Button, ButtonToolbar } from 'react-bootstrap';
-import { Collapse } from 'react-collapse';
+import {Button, ButtonToolbar} from 'react-bootstrap';
 
 class Recipe extends Component{
   constructor(props){
@@ -14,7 +13,6 @@ class Recipe extends Component{
 
   render(){
     return(
-      <Collapse isOpened={true || false }>
         <div className="recipe-detail">
           <h3>{this.state.name}</h3>
           <ul>
@@ -22,10 +20,9 @@ class Recipe extends Component{
           </ul>
           <ButtonToolbar>
             <Button bsStyle="danger">Delete</Button>
-            <Button>Edit</Button>
+            <Button bsStyle="primary">Edit</Button>
           </ButtonToolbar>
         </div>
-      </Collapse>
     );
   };
 }
