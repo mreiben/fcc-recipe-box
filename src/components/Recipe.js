@@ -8,15 +8,17 @@ class Recipe extends Component{
     this.state = {
       name: this.props.name,
       ingredients: this.props.ingredients,
+      ingredientsStrings: this.props.ingredientsStrings,
       showEditModal: false,
       newName: '',
       newIngredients: ''
     }
 
-    this.openEditModal= this.openEditModal.bind(this);
-    this.closeEditModal= this.closeEditModal.bind(this);
-    this.handleNameChange= this.handleNameChange.bind(this);
-    this.handleIngredientsChange= this.handleIngredientsChange.bind(this);
+    this.openEditModal = this.openEditModal.bind(this);
+    this.closeEditModal = this.closeEditModal.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleIngredientsChange = this.handleIngredientsChange.bind(this);
+    this.saveEdits = this.saveEdits.bind(this);
   }
 
   openEditModal(){
@@ -31,6 +33,21 @@ class Recipe extends Component{
   handleIngredientsChange(e){
     this.setState({newIngredients: e.target.value});
   }
+  saveEdits(){
+    if(this.state.newName !== ''){
+          this.setState({name: this.state.newName});
+    }
+    if(this.state.newIngredients !== ''){
+      this.setState({ingredients: this.state.newIngredients.split(",").map(function(r){
+                        return <li key={r} className="ingredient">{r}</li>
+                      })
+                    });
+      this.setState({ingredientsStrings: this.state.newIngredients.split(",")});
+    }
+    this.setState({newName: ''});
+    this.setState({newIngredients: ''});
+    this.closeEditModal();
+  }
 
   render(){
     return(
@@ -41,7 +58,6 @@ class Recipe extends Component{
                 {this.state.ingredients}
               </ul>
               <ButtonToolbar>
-                // can't edit item name...
                 <Button bsStyle="primary" onClick={this.openEditModal}>Edit</Button>
                 <Button bsStyle="danger" onClick={()=>{this.props.removeRecipe(this.props.name)}}>Delete</Button>
               </ButtonToolbar>
@@ -52,18 +68,21 @@ class Recipe extends Component{
               </Modal.Header>
               <Modal.Body>
                 <h4>Title:</h4>
-                <input type="text" value={this.state.name} onChange={this.handleNameChange}/>
+                <input
+                  type="text"
+                  defaultValue={this.state.name}
+                  onChange={this.handleNameChange}
+                />
                 <h4>Ingredients:</h4>
                 <input
                   type="text"
-                  placeholder={this.state.ingredients.join(",")}
+                  defaultValue={this.state.ingredientsStrings.join(",")}
                   onChange={this.handleIngredientsChange}
                 />
               </Modal.Body>
               <Modal.Footer>
                 <ButtonToolbar>
-                    //can't save changes, once made
-                    <Button bsStyle="primary">Save</Button>
+                    <Button bsStyle="primary" onClick={this.saveEdits}>Save</Button>
                     <Button bsStyle="danger" onClick={this.closeEditModal}>Cancel</Button>
                 </ButtonToolbar>
               </Modal.Footer>
