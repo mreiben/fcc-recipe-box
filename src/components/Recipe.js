@@ -18,7 +18,7 @@ class Recipe extends Component{
     this.closeEditModal = this.closeEditModal.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleIngredientsChange = this.handleIngredientsChange.bind(this);
-    this.saveEdits = this.saveEdits.bind(this);
+    this.updateRecipe = this.updateRecipe.bind(this);
   }
 
   openEditModal(){
@@ -33,21 +33,33 @@ class Recipe extends Component{
   handleIngredientsChange(e){
     this.setState({newIngredients: e.target.value});
   }
-  saveEdits(){
-    if(this.state.newName !== ''){
-          this.setState({name: this.state.newName});
-    }
-    if(this.state.newIngredients !== ''){
-      this.setState({ingredients: this.state.newIngredients.split(",").map(function(r){
-                        return <li key={r} className="ingredient">{r}</li>
-                      })
-                    });
-      this.setState({ingredientsStrings: this.state.newIngredients.split(",")});
-    }
-    this.setState({newName: ''});
-    this.setState({newIngredients: ''});
-    this.closeEditModal();
+
+  updateRecipe(){
+    console.log("saving edits for " + this.state.name);
+    console.log("new name: " + this.state.newName);
+    console.log("new ingredients: " + this.state.newIngredients);
+    this.props.saveEdits(
+      this.state.name,
+      this.state.newName,
+      this.state.ingredients.join(','),
+      this.state.newIngredients);
+    this.setState({showEditModal: false });
   }
+  // saveEdits(){
+  //   if(this.state.newName !== ''){
+  //         this.setState({name: this.state.newName});
+  //   }
+  //   if(this.state.newIngredients !== ''){
+  //     this.setState({ingredients: this.state.newIngredients.split(",").map(function(r){
+  //                       return <li key={r} className="ingredient">{r}</li>
+  //                     })
+  //                   });
+  //     this.setState({ingredientsStrings: this.state.newIngredients.split(",")});
+  //   }
+  //   this.setState({newName: ''});
+  //   this.setState({newIngredients: ''});
+  //   this.closeEditModal();
+  // }
 
   render(){
     return(
@@ -82,7 +94,9 @@ class Recipe extends Component{
               </Modal.Body>
               <Modal.Footer>
                 <ButtonToolbar>
-                    <Button bsStyle="primary" onClick={this.saveEdits}>Save</Button>
+                    <Button
+                      bsStyle="primary"
+                      onClick={this.updateRecipe}>Save</Button>
                     <Button bsStyle="danger" onClick={this.closeEditModal}>Cancel</Button>
                 </ButtonToolbar>
               </Modal.Footer>

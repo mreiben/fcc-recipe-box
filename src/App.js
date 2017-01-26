@@ -25,23 +25,39 @@ class App extends Component {
         }
       ]
     }
-    this.openAddModal= this.openAddModal.bind(this);
-    this.closeAddModal= this.closeAddModal.bind(this);
-    this.addRecipe= this.addRecipe.bind(this);
-    this.handleNameChange= this.handleNameChange.bind(this);
-    this.handleIngredientsChange= this.handleIngredientsChange.bind(this);
-    this.removeRecipe= this.removeRecipe.bind(this);
+    this.openAddModal = this.openAddModal.bind(this);
+    this.closeAddModal = this.closeAddModal.bind(this);
+    this.addRecipe = this.addRecipe.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleIngredientsChange = this.handleIngredientsChange.bind(this);
+    this.removeRecipe = this.removeRecipe.bind(this);
+    this.saveEdits = this.saveEdits.bind(this);
   }
 
   addRecipe(){
     let data = this.state.recipes.slice();
     let arr = this.state.newIngredients.split(",");
+    console.log("testing");
     data.push({name: this.state.newName, ingredients: arr});
     this.setState({recipes: data});
-    this.setState({newName: ''});
-    this.setState({newIngredients: ''});
     this.closeAddModal();
   }
+
+  saveEdits(oldN, newN, oldI, newI){
+    console.log("edits received:" + oldN);
+    let n = '';
+    let i = '';
+    newN === ''? n = oldN : n = newN;
+    newI === ''? i = oldI : i = newI;
+    this.setState({newName: n}, function(){
+      this.setState({newIngredients: i}, function(){
+        this.addRecipe(function(){
+          this.removeRecipe(oldN);
+        });
+      });
+    });
+  }
+
   openAddModal(){
     this.setState({ showAddModal: true });
   }
@@ -61,11 +77,14 @@ class App extends Component {
     })});
   }
 
-
   render() {
     return (
       <div className="list-holder">
-        <RecipeList recipes={this.state.recipes} removeRecipe={this.removeRecipe}/>
+        <RecipeList
+          recipes={this.state.recipes}
+          removeRecipe={this.removeRecipe}
+          saveEdits={this.saveEdits}
+        />
         <ButtonToolbar id="add-btn">
           <Button
             bsStyle="success"

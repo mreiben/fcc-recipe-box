@@ -14,6 +14,7 @@ const RecipeList = (props) => {
         ingredients={ingredientsList}
         ingredientsStrings={recipe.ingredients}
         removeRecipe={props.removeRecipe}
+        saveEdits={props.saveEdits}
       />
     );
   });
