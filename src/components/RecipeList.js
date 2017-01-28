@@ -4,14 +4,11 @@ import './RecipeList.css'
 
 const RecipeList = (props) => {
   const recipeList = props.recipes.map(function(recipe){
-    const ingredientsList = recipe.ingredients.map(function(ingredient){
-      return <li key={ingredient} className="ingredient">{ingredient}</li>
-    });
     return(
       <Recipe
         key={recipe.name}
         name={recipe.name}
-        ingredients={ingredientsList}
+        ingredients={recipe.ingredients}
         ingredientsStrings={recipe.ingredients}
         removeRecipe={props.removeRecipe}
         saveEdits={props.saveEdits}

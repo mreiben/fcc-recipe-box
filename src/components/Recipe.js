@@ -35,39 +35,27 @@ class Recipe extends Component{
   }
 
   updateRecipe(){
-    console.log("saving edits for " + this.state.name);
-    console.log("new name: " + this.state.newName);
-    console.log("new ingredients: " + this.state.newIngredients);
     this.props.saveEdits(
       this.state.name,
       this.state.newName,
-      this.state.ingredients.join(','),
+      this.state.ingredientsStrings.join(","),
       this.state.newIngredients);
+    if(this.state.newIngredients !== ''){
+      this.setState({ingredients: this.state.newIngredients.split(',')});
+    }
     this.setState({showEditModal: false });
   }
-  // saveEdits(){
-  //   if(this.state.newName !== ''){
-  //         this.setState({name: this.state.newName});
-  //   }
-  //   if(this.state.newIngredients !== ''){
-  //     this.setState({ingredients: this.state.newIngredients.split(",").map(function(r){
-  //                       return <li key={r} className="ingredient">{r}</li>
-  //                     })
-  //                   });
-  //     this.setState({ingredientsStrings: this.state.newIngredients.split(",")});
-  //   }
-  //   this.setState({newName: ''});
-  //   this.setState({newIngredients: ''});
-  //   this.closeEditModal();
-  // }
 
   render(){
+    const itemList = this.state.ingredients.map(function(ingredient){
+      return <li key={ingredient} className="ingredient">{ingredient}</li>
+    });
     return(
         <div className="recipe-detail">
           <Accordion>
             <Panel className="item-header" bsStyle="info" header={this.state.name} eventKey="1">
               <ul>
-                {this.state.ingredients}
+                {itemList}
               </ul>
               <ButtonToolbar>
                 <Button bsStyle="primary" onClick={this.openEditModal}>Edit</Button>

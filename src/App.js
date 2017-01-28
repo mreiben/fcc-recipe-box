@@ -37,25 +37,21 @@ class App extends Component {
   addRecipe(){
     let data = this.state.recipes.slice();
     let arr = this.state.newIngredients.split(",");
-    console.log("testing");
     data.push({name: this.state.newName, ingredients: arr});
     this.setState({recipes: data});
     this.closeAddModal();
   }
 
   saveEdits(oldN, newN, oldI, newI){
-    console.log("edits received:" + oldN);
     let n = '';
     let i = '';
     newN === ''? n = oldN : n = newN;
-    newI === ''? i = oldI : i = newI;
-    this.setState({newName: n}, function(){
-      this.setState({newIngredients: i}, function(){
-        this.addRecipe(function(){
-          this.removeRecipe(oldN);
-        });
-      });
+    newI === ''? i = oldI.split(',') : i = newI.split(',');
+    let data = this.state.recipes.map(function(recipe){
+      return recipe.name === oldN ? {name: n, ingredients: i} : recipe;
     });
+    this.setState({recipes: data});
+
   }
 
   openAddModal(){
@@ -71,10 +67,10 @@ class App extends Component {
     this.setState({newIngredients: e.target.value});
   }
   removeRecipe(recipeKey){
-    let data = this.state.recipes.slice();
-    this.setState({recipes: data.filter(function(recipe){
+    let data = this.state.recipes.filter(function(recipe){
       return recipe.name !== recipeKey;
-    })});
+    });
+    this.setState({recipes: data});
   }
 
   render() {
