@@ -6,25 +6,26 @@ import './App.css';
 class App extends Component {
   constructor(props){
     super(props);
-    this.state = {
-      showAddModal: false,
-      newName: '',
-      newIngredients: '',
-      recipes: [
-        {
-          name: "chicken soup",
-          ingredients: ["chicken","water","carrots"]
-        },
-        {
-          name: "old-fashioned",
-          ingredients: ["rye","sugar","bitters"]
-        },
-        {
-          name: "ceasar salad",
-          ingredients: ["lettuce","ceasar dressing"]
-        }
-      ]
-    }
+    this.state = JSON.parse(localStorage.getItem('state')) ||
+      ({
+        showAddModal: false,
+        newName: '',
+        newIngredients: '',
+        recipes: [
+          {
+            name: "chicken soup",
+            ingredients: ["chicken","water","carrots"]
+          },
+          {
+            name: "old-fashioned",
+            ingredients: ["rye","sugar","bitters"]
+          },
+          {
+            name: "ceasar salad",
+            ingredients: ["lettuce","ceasar dressing"]
+          }
+        ]
+      });
     this.openAddModal = this.openAddModal.bind(this);
     this.closeAddModal = this.closeAddModal.bind(this);
     this.addRecipe = this.addRecipe.bind(this);
@@ -38,8 +39,10 @@ class App extends Component {
     let data = this.state.recipes.slice();
     let arr = this.state.newIngredients.split(",");
     data.push({name: this.state.newName, ingredients: arr});
-    this.setState({recipes: data});
     this.closeAddModal();
+    this.setState({recipes: data}, function(){
+      localStorage.setItem('state', JSON.stringify(this.state));
+    });
   }
 
   saveEdits(oldN, newN, oldI, newI){
@@ -50,7 +53,9 @@ class App extends Component {
     let data = this.state.recipes.map(function(recipe){
       return recipe.name === oldN ? {name: n, ingredients: i} : recipe;
     });
-    this.setState({recipes: data});
+    this.setState({recipes: data}, function(){
+      localStorage.setItem('state', JSON.stringify(this.state));
+    });
 
   }
 
@@ -70,7 +75,9 @@ class App extends Component {
     let data = this.state.recipes.filter(function(recipe){
       return recipe.name !== recipeKey;
     });
-    this.setState({recipes: data});
+    this.setState({recipes: data}, function(){
+          localStorage.setItem('state', JSON.stringify(this.state));
+    });
   }
 
   render() {
